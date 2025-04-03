@@ -1,6 +1,6 @@
 import { executeQuery } from '@/lib/datocms/executeQuery';
 import { graphql } from 'gql.tada';
-import { draftMode } from 'next/headers';
+import { revalidateTag } from 'next/cache';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -20,8 +20,9 @@ const query = graphql(`
     }
   }
 `);
-
 export default async function Page() {
+  revalidateTag('datocms');
+
   const { articleList, allNewzArticles } = await executeQuery(query);
 
   if (!articleList) {
