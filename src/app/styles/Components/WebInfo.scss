@@ -1,0 +1,35 @@
+@use '../variables' as *;
+
+footer {
+  background-color: $color-background-2;
+  color: $color-text-2;
+  padding: 30px;
+  text-align: center;
+  font-size: 14px;
+  border-top: 2px solid $color-background-3;
+}
+
+footer h3 {
+  color: $color-text-1;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+footer p {
+  margin: 5px 0;
+  color: $color-text-2;
+}
+
+footer a {
+  color: $color-accent;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $color-text-1;
+  }
+}
+
+footer div {
+  margin-bottom: 10px;
+}

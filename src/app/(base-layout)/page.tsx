@@ -1,25 +1,38 @@
+import { executeQuery } from '@/lib/datocms/executeQuery';
+import { graphql } from 'gql.tada';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 export const metadata = {
-  title: 'Home | Tech Starter Kit',
+  title: 'Home',
 };
 
-export default function Page() {
+const query = graphql(`
+  query getFrontPage {
+    frontpage {
+      title
+      image {
+        url
+        alt
+      }
+      text
+    }
+  }
+`);
+
+export default async function Page() {
+  const { frontpage } = await executeQuery(query);
+
+  if (!frontpage) {
+    notFound();
+  }
+
   return (
     <>
-      <h3>Choose your preferred template:</h3>
-
-      <ul>
-        <li>
-          <Link href="/basic">Basic:</Link> <span>Simpler code, great to start exploring</span>
-        </li>
-        <li>
-          <Link href="/real-time-updates">Real-time Updates:</Link>{' '}
-          <span>
-            Slightly more complex code, but content updates in real-time when Draft Mode is on
-          </span>
-        </li>
-      </ul>
+      <h1>{frontpage.title}</h1>
+      <img src={frontpage.image.url} alt={frontpage.image.alt} />
+      <p>{frontpage.text}</p>
+      <Link href="/articles">See all of our articles</Link>
     </>
   );
 }
